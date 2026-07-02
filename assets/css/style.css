@@ -322,7 +322,7 @@ ul.clean{padding:0;margin:0;list-style:none}
   .gallery-strip a:hover img,.gallery-item:hover img{transform:none}
 }
 
-/* Lagane page-transition animacije za O nama, Pakete i Galeriju */
+/* Lagane ulazne page-transition animacije za O nama, Pakete i Galeriju */
 .page-transition{
   position:fixed;
   inset:0;
@@ -352,7 +352,6 @@ ul.clean{padding:0;margin:0;list-style:none}
   opacity:0;
   animation:transitionIconIn .56s cubic-bezier(.2,.8,.2,1) forwards;
 }
-.page-transition--out .page-transition__icon{animation:transitionIconOut .42s cubic-bezier(.2,.8,.2,1) forwards;}
 .page-transition--star .page-transition__icon{width:min(360px,45vw);}
 .page-transition--plane .page-transition__icon{width:min(500px,56vw);}
 .page-transition__soft{
@@ -371,10 +370,6 @@ ul.clean{padding:0;margin:0;list-style:none}
 @keyframes transitionIconIn{
   0%{opacity:0;transform:translate3d(0,22px,0) scale(.88) rotate(-2deg);}
   60%{opacity:1;transform:translate3d(0,0,0) scale(1.02) rotate(1deg);}
-  100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0deg);}
-}
-@keyframes transitionIconOut{
-  0%{opacity:0;transform:translate3d(0,24px,0) scale(.9) rotate(-2deg);}
   100%{opacity:1;transform:translate3d(0,0,0) scale(1) rotate(0deg);}
 }
 

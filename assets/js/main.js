@@ -174,25 +174,16 @@
     return overlay;
   }
 
-  function playTransition(data, mode, done) {
-    if (reducedMotion.matches) {
-      if (typeof done === 'function') done();
-      return;
-    }
+  function playTransition(data) {
+    if (reducedMotion.matches) return;
 
-    const overlay = createTransitionOverlay(data, mode);
+    const overlay = createTransitionOverlay(data, 'in');
     window.requestAnimationFrame(() => overlay.classList.add('is-active'));
 
-    if (mode === 'in') {
-      window.setTimeout(() => {
-        overlay.classList.add('is-leaving');
-        window.setTimeout(() => overlay.remove(), 360);
-      }, 420);
-    } else {
-      window.setTimeout(() => {
-        if (typeof done === 'function') done();
-      }, 330);
-    }
+    window.setTimeout(() => {
+      overlay.classList.add('is-leaving');
+      window.setTimeout(() => overlay.remove(), 360);
+    }, 520);
   }
 
   document.querySelectorAll('a[href]').forEach((link) => {
@@ -201,15 +192,12 @@
 
     link.addEventListener('click', (event) => {
       if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.target === '_blank') return;
-      event.preventDefault();
 
+      // Ne zaustavljamo klik i ne pokrećemo izlaznu animaciju.
+      // Samo zapamtimo koja se ulazna animacija treba prikazati na novoj stranici.
       try {
         sessionStorage.setItem('skykidsPageTransition', JSON.stringify({ type: target.type, icon: target.icon, label: target.label }));
       } catch (error) {}
-
-      playTransition(target, 'out', () => {
-        window.location.href = target.url.href;
-      });
     });
   });
 
@@ -219,7 +207,7 @@
       sessionStorage.removeItem('skykidsPageTransition');
       const data = JSON.parse(savedTransition);
       if (data && data.icon && data.type) {
-        playTransition(data, 'in');
+        playTransition(data);
       }
     }
   } catch (error) {}
