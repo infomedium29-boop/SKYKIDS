@@ -336,6 +336,40 @@ ul.clean{padding:0;margin:0;list-style:none}
 }
 
 
+/* Poravnanje date inputa na mobitelima i Safari/Chrome preglednicima */
+.field input,
+.field select,
+.field textarea{
+  min-width:0;
+  max-width:100%;
+  display:block;
+}
+.field input[type="date"]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+  line-height:1.4;
+  text-align:left;
+}
+.field input[type="date"]::-webkit-date-and-time-value{
+  text-align:left;
+  margin:0;
+  min-width:0;
+}
+.field input[type="date"]::-webkit-calendar-picker-indicator{
+  margin-left:auto;
+}
+@media (max-width:720px){
+  .field input[type="date"]{
+    height:58px;
+    padding-left:16px;
+    padding-right:16px;
+  }
+}
+
 .cookie-banner{
   position:fixed;
   left:50%;
