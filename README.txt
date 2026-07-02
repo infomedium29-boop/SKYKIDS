@@ -26,3 +26,5 @@ SKYKIDS WEB STRANICA - NAPOMENE ZA POSTAVLJANJE
 
 FAVICON:
 Favicon je postavljen iz loga balona i zvjezdice u assets/img/favicon.ico i PNG veličinama.
+
+NAPOMENA: Page-transition animacije za O nama, Pakete i Galeriju su uklonjene radi maksimalne brzine i glatkog skrolanja.
