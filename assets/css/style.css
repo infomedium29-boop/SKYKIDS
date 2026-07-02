@@ -336,7 +336,8 @@ ul.clean{padding:0;margin:0;list-style:none}
 }
 
 
-/* Poravnanje date inputa na mobitelima i Safari/Chrome preglednicima */
+/* Robusno poravnanje polja za datum na pravim mobitelima
+   Napomena: iOS/Safari native input[type=date] zna širiti polje, zato datum koristimo kao tekstualni input s maskom. */
 .field input,
 .field select,
 .field textarea{
@@ -344,31 +345,23 @@ ul.clean{padding:0;margin:0;list-style:none}
   max-width:100%;
   display:block;
 }
-.field input[type="date"]{
+.field input.date-input-fixed{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
   -webkit-appearance:none;
   appearance:none;
-  width:100%;
-  min-width:0;
-  max-width:100%;
-  box-sizing:border-box;
-  line-height:1.4;
   text-align:left;
-}
-.field input[type="date"]::-webkit-date-and-time-value{
-  text-align:left;
-  margin:0;
-  min-width:0;
-}
-.field input[type="date"]::-webkit-calendar-picker-indicator{
-  margin-left:auto;
 }
 @media (max-width:720px){
-  .field input[type="date"]{
+  .field input.date-input-fixed{
     height:58px;
     padding-left:16px;
     padding-right:16px;
   }
 }
+
 
 .cookie-banner{
   position:fixed;

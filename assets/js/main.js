@@ -123,6 +123,21 @@
     });
   }
 
+
+  const dateInput = document.querySelector('.date-input-fixed');
+  if (dateInput) {
+    dateInput.addEventListener('input', () => {
+      const digits = dateInput.value.replace(/\D/g, '').slice(0, 8);
+      const day = digits.slice(0, 2);
+      const month = digits.slice(2, 4);
+      const year = digits.slice(4, 8);
+      let formatted = day;
+      if (month) formatted += `.${month}`;
+      if (year) formatted += `.${year}`;
+      dateInput.value = formatted;
+    });
+  }
+
   const form = document.querySelector('.reservation-form');
   if (form) {
     form.addEventListener('submit', (event) => {
