@@ -327,3 +327,92 @@ ul.clean{padding:0;margin:0;list-style:none}
   .btn:hover,.card:hover,.gallery-strip a:hover,.gallery-item:hover{transform:none;box-shadow:var(--shadow-soft)}
   .gallery-strip a:hover img,.gallery-item:hover img{transform:none}
 }
+
+
+.cookie-banner{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  z-index:5000;
+  width:min(720px, calc(100% - 32px));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:16px 18px 16px 20px;
+  border:1px solid rgba(45,39,100,.10);
+  border-radius:26px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 18px 55px rgba(45,39,100,.18);
+  color:var(--ink);
+  transform:translate3d(-50%, 18px, 0);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .28s ease, transform .28s ease, visibility .28s ease;
+}
+.cookie-banner.is-visible{
+  opacity:1;
+  visibility:visible;
+  transform:translate3d(-50%, 0, 0);
+}
+.cookie-banner strong{
+  display:block;
+  font-family:'Fredoka', 'Nunito Sans', system-ui, sans-serif;
+  font-size:1.15rem;
+  line-height:1.1;
+  color:var(--ink);
+  margin-bottom:2px;
+}
+.cookie-banner p{
+  font-size:.96rem;
+  line-height:1.45;
+  color:var(--ink-soft);
+}
+.cookie-banner__actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex:0 0 auto;
+}
+.cookie-banner__actions a{
+  font-weight:900;
+  color:var(--ink);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  white-space:nowrap;
+}
+.cookie-accept{
+  border:0;
+  min-height:44px;
+  padding:0 18px;
+  border-radius:999px;
+  background:var(--ink);
+  color:white;
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:0 12px 26px rgba(45,39,100,.20);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.cookie-accept:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 34px rgba(45,39,100,.24);
+}
+
+@media (max-width:720px){
+  .cookie-banner{
+    bottom:14px;
+    width:calc(100% - 22px);
+    display:grid;
+    gap:14px;
+    padding:16px;
+    border-radius:22px;
+  }
+  .cookie-banner__actions{
+    justify-content:space-between;
+    width:100%;
+  }
+  .cookie-accept{
+    min-height:42px;
+    padding:0 16px;
+  }
+}

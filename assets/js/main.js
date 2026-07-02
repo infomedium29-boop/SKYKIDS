@@ -134,4 +134,52 @@
     });
   }
 
+
+  const consentKey = 'skykids_cookie_consent_v1';
+  const hasCookieConsent = () => {
+    try {
+      return localStorage.getItem(consentKey) === 'accepted';
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const saveCookieConsent = () => {
+    try {
+      localStorage.setItem(consentKey, 'accepted');
+    } catch (error) {
+      document.cookie = 'skykids_cookie_consent=accepted; max-age=31536000; path=/; SameSite=Lax';
+    }
+  };
+
+  if (!hasCookieConsent() && !document.querySelector('.cookie-banner')) {
+    const cookieBanner = document.createElement('div');
+    cookieBanner.className = 'cookie-banner';
+    cookieBanner.setAttribute('role', 'dialog');
+    cookieBanner.setAttribute('aria-live', 'polite');
+    cookieBanner.setAttribute('aria-label', 'Obavijest o kolačićima');
+    cookieBanner.innerHTML = `
+      <div class="cookie-banner__text">
+        <strong>Kolačići</strong>
+        <p>Ova stranica koristi kolačiće za bolje korisničko iskustvo i osnovnu funkcionalnost stranice.</p>
+      </div>
+      <div class="cookie-banner__actions">
+        <a href="kolacici.html">Saznaj više</a>
+        <button type="button" class="cookie-accept">Prihvaćam</button>
+      </div>
+    `;
+    document.body.appendChild(cookieBanner);
+
+    window.requestAnimationFrame(() => {
+      cookieBanner.classList.add('is-visible');
+    });
+
+    cookieBanner.querySelector('.cookie-accept')?.addEventListener('click', () => {
+      saveCookieConsent();
+      cookieBanner.classList.remove('is-visible');
+      window.setTimeout(() => cookieBanner.remove(), 280);
+    });
+  }
+
+
 })();
