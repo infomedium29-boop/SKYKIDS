@@ -134,4 +134,94 @@
       }
     });
   }
+
+
+  // Kratke, lagane page-transition animacije za ključne stranice.
+  // Nema scroll animacija i nema stalnog opterećenja mobitela.
+  const transitionMap = {
+    'o-nama.html': { type: 'balloon', icon: 'assets/img/balon.svg', label: 'SkyKids balon' },
+    'paketi.html': { type: 'star', icon: 'assets/img/zvjezda.svg', label: 'SkyKids zvijezda' },
+    'galerija.html': { type: 'plane', icon: 'assets/img/avion.svg', label: 'SkyKids avion' }
+  };
+
+  function getInternalTarget(link) {
+    try {
+      const url = new URL(link.getAttribute('href'), window.location.href);
+      if (url.origin !== window.location.origin) return null;
+      const filename = url.pathname.split('/').pop() || 'index.html';
+      if (!transitionMap[filename]) return null;
+      const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+      if (filename === currentFile && !url.hash) return null;
+      return { url, ...transitionMap[filename] };
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function createTransitionOverlay(data, mode = 'in') {
+    const existing = document.querySelector('.page-transition');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = `page-transition page-transition--${data.type} page-transition--${mode}`;
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = `
+      <div class="page-transition__soft page-transition__soft--one"></div>
+      <div class="page-transition__soft page-transition__soft--two"></div>
+      <img class="page-transition__icon" src="${data.icon}" alt="${data.label}" decoding="async">
+    `;
+    document.body.appendChild(overlay);
+    return overlay;
+  }
+
+  function playTransition(data, mode, done) {
+    if (reducedMotion.matches) {
+      if (typeof done === 'function') done();
+      return;
+    }
+
+    const overlay = createTransitionOverlay(data, mode);
+    window.requestAnimationFrame(() => overlay.classList.add('is-active'));
+
+    if (mode === 'in') {
+      window.setTimeout(() => {
+        overlay.classList.add('is-leaving');
+        window.setTimeout(() => overlay.remove(), 360);
+      }, 420);
+    } else {
+      window.setTimeout(() => {
+        if (typeof done === 'function') done();
+      }, 330);
+    }
+  }
+
+  document.querySelectorAll('a[href]').forEach((link) => {
+    const target = getInternalTarget(link);
+    if (!target) return;
+
+    link.addEventListener('click', (event) => {
+      if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.target === '_blank') return;
+      event.preventDefault();
+
+      try {
+        sessionStorage.setItem('skykidsPageTransition', JSON.stringify({ type: target.type, icon: target.icon, label: target.label }));
+      } catch (error) {}
+
+      playTransition(target, 'out', () => {
+        window.location.href = target.url.href;
+      });
+    });
+  });
+
+  try {
+    const savedTransition = sessionStorage.getItem('skykidsPageTransition');
+    if (savedTransition) {
+      sessionStorage.removeItem('skykidsPageTransition');
+      const data = JSON.parse(savedTransition);
+      if (data && data.icon && data.type) {
+        playTransition(data, 'in');
+      }
+    }
+  } catch (error) {}
+
 })();
