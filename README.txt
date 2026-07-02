@@ -4,10 +4,9 @@ SKYKIDS WEB STRANICA - NAPOMENE ZA POSTAVLJANJE
    Uploadati cijeli sadržaj ovog foldera u repository.
 
 2) Prije slanja klijentu zamijeniti placeholder podatke:
-   - +385 XX XXX XXXX
-   - info@skykids.hr
-   - Upisati adresu igraonice
-   - Instagram i Facebook linkove u footeru i kontakt stranici
+   - 098 979 6826
+   - Teslićka ul. 25, 10000 Zagreb
+   - Instagram je unesen: https://www.instagram.com/igraonica.skykids/
    - Google Maps embed na kontakt stranici
    - Web3Forms access key u kontakt.html
 
