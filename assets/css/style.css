@@ -215,7 +215,7 @@ ul.clean{padding:0;margin:0;list-style:none}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .field{display:flex;flex-direction:column;gap:8px}
 .field.full{grid-column:1/-1}
-.field label{font-weight:1000;color:var(--ink)}
+.field label,.field .field-label{font-weight:1000;color:var(--ink)}
 .field input,.field select,.field textarea{width:100%;border:1px solid rgba(45,39,100,.13);border-radius:20px;background:white;padding:15px 16px;color:var(--ink);outline:none;transition:border .2s ease, box-shadow .2s ease}
 .field textarea{min-height:138px;resize:vertical}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(45,39,100,.45);box-shadow:0 0 0 5px rgba(191,238,220,.5)}
@@ -336,14 +336,27 @@ ul.clean{padding:0;margin:0;list-style:none}
 }
 
 
-/* iOS/Safari fix za native kalendar: vizualno polje ostaje potpuno poravnato,
-   a pravi input[type=date] je nevidljiv overlay koji otvara sistemski kalendar. */
+/* iOS/Safari fix za native kalendar: vidljivo polje je običan label box
+   iste širine kao ostali inputi, a pravi input[type=date] je skriven 1px
+   i služi samo za otvaranje sistemskog kalendara. */
 .field input,
 .field select,
 .field textarea{
   min-width:0;
   max-width:100%;
   display:block;
+  box-sizing:border-box;
+}
+.date-field{
+  min-width:0;
+  max-width:100%;
+}
+.date-control{
+  position:relative;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
 }
 .date-picker-wrap{
   position:relative;
@@ -359,9 +372,13 @@ ul.clean{padding:0;margin:0;list-style:none}
   display:flex;
   align-items:center;
   padding:15px 54px 15px 16px;
+  margin:0;
+  cursor:pointer;
   transition:border .2s ease, box-shadow .2s ease;
 }
-.date-picker-wrap:focus-within{
+.date-picker-wrap:focus-within,
+.date-picker-wrap:focus-visible,
+.date-control:focus-within .date-picker-wrap{
   border-color:rgba(45,39,100,.45);
   box-shadow:0 0 0 5px rgba(191,238,220,.5);
 }
@@ -385,22 +402,26 @@ ul.clean{padding:0;margin:0;list-style:none}
   white-space:nowrap;
   text-overflow:ellipsis;
   color:var(--ink);
+  line-height:1.2;
 }
 .date-display.is-placeholder{
   color:rgba(45,39,100,.42);
 }
 .native-date-input{
   position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  min-width:0;
-  max-width:100%;
-  opacity:0;
+  left:0;
+  top:0;
+  width:1px!important;
+  height:1px!important;
+  min-width:0!important;
+  max-width:1px!important;
+  opacity:.01;
   border:0;
   padding:0;
   margin:0;
-  cursor:pointer;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  clip-path:inset(50%);
   -webkit-appearance:none;
   appearance:none;
 }
@@ -409,6 +430,13 @@ ul.clean{padding:0;margin:0;list-style:none}
 }
 .native-date-input::-webkit-calendar-picker-indicator{
   cursor:pointer;
+}
+@supports (-webkit-touch-callout:none){
+  .date-picker-wrap{
+    width:100%!important;
+    max-width:100%!important;
+    flex:0 0 auto;
+  }
 }
 
 

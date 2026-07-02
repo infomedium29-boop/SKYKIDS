@@ -127,6 +127,7 @@
   const nativeDateInput = document.querySelector('.native-date-input');
   const dateDisplay = document.querySelector('.date-display');
   const formattedDateInput = document.querySelector('#datum-formatirano');
+  const datePickerTrigger = document.querySelector('.date-picker-wrap');
   if (nativeDateInput && dateDisplay && formattedDateInput) {
     const formatDate = (value) => {
       if (!value) return '';
@@ -143,6 +144,13 @@
     };
     syncDateDisplay();
     nativeDateInput.addEventListener('change', syncDateDisplay);
+
+    datePickerTrigger?.addEventListener('click', (event) => {
+      if (typeof nativeDateInput.showPicker === 'function') {
+        event.preventDefault();
+        nativeDateInput.showPicker();
+      }
+    });
   }
 
   const form = document.querySelector('.reservation-form');
