@@ -29,8 +29,7 @@
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-    reveals.forEach((el, index) => {
-      el.style.transitionDelay = `${Math.min(index % 6, 5) * 55}ms`;
+    reveals.forEach((el) => {
       observer.observe(el);
     });
   } else {
