@@ -30,7 +30,7 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
     reveals.forEach((el, index) => {
-      el.style.transitionDelay = `${Math.min(index % 6, 5) * 70}ms`;
+      el.style.transitionDelay = `${Math.min(index % 6, 5) * 55}ms`;
       observer.observe(el);
     });
   } else {
@@ -43,10 +43,18 @@
   const balloon = document.querySelector('.scroll-balloon');
   const aboutStar = document.querySelector('.scroll-star-page');
   const galleryPlane = document.querySelector('.scroll-plane-page');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let ticking = false;
+  let metrics = {
+    maxScroll: 1,
+    introDistance: 1,
+    viewportW: window.innerWidth,
+    viewportH: window.innerHeight
+  };
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
   const lerp = (start, end, amount) => start + (end - start) * amount;
+  const isMobile = () => metrics.viewportW <= 720;
 
   const pathHome = [
     { p: 0.00, x: 78, y: 48, s: 1.00, r: -7, o: 0.00 },
@@ -76,6 +84,14 @@
     { p: 1.00, x: 92, y: 26, s: 0.44, r: 5, o: 0.38 }
   ];
 
+  function updateMetrics() {
+    const doc = document.documentElement;
+    metrics.viewportW = window.innerWidth;
+    metrics.viewportH = window.innerHeight;
+    metrics.maxScroll = Math.max(doc.scrollHeight - metrics.viewportH, 1);
+    metrics.introDistance = intro ? Math.max(intro.offsetHeight - metrics.viewportH, 1) : 1;
+  }
+
   function interpolatePath(points, progress) {
     const p = clamp(progress, 0, 1);
     let a = points[0];
@@ -98,65 +114,78 @@
   }
 
   function pageProgress(offsetStart = 0) {
-    const doc = document.documentElement;
-    const maxScroll = Math.max(doc.scrollHeight - window.innerHeight - offsetStart, 1);
-    return clamp(((window.scrollY || window.pageYOffset) - offsetStart) / maxScroll, 0, 1);
+    return clamp(((window.scrollY || window.pageYOffset) - offsetStart) / Math.max(metrics.maxScroll - offsetStart, 1), 0, 1);
   }
 
-  function applyMotion(el, points, progress, bob = 0, flip = false) {
+  function renderMotion(el, current, options = {}) {
     if (!el) return;
-    const current = interpolatePath(points, progress);
-    const mobile = window.innerWidth <= 720;
-    const edgeClampMin = mobile ? 12 : 6;
-    const edgeClampMax = mobile ? 88 : 94;
-    el.style.left = `${clamp(current.x, edgeClampMin, edgeClampMax)}vw`;
-    el.style.top = `${clamp(current.y, 12, 82)}vh`;
-    el.style.opacity = current.o.toFixed(2);
-    const scale = mobile ? current.s * 0.72 : current.s;
-    const flipValue = flip ? -1 : 1;
-    el.style.transform = `translate3d(-50%, calc(-50% + ${bob}px), 0) scaleX(${flipValue}) scale(${scale}) rotate(${current.r}deg)`;
+    const mobile = isMobile();
+    const edgeClampMin = mobile ? 11 : 6;
+    const edgeClampMax = mobile ? 89 : 94;
+    const x = clamp(current.x, edgeClampMin, edgeClampMax);
+    const y = clamp(current.y, mobile ? 14 : 12, mobile ? 78 : 82);
+    const bob = mobile ? 0 : (options.bob || 0);
+    const scaleMultiplier = mobile ? (options.mobileScale || 0.68) : 1;
+    const scaleX = options.flip ? -1 : 1;
+    const opacity = typeof options.opacity === 'number' ? options.opacity : current.o;
+
+    el.style.opacity = clamp(opacity, 0, 1).toFixed(2);
+    el.style.transform = `translate3d(calc(${x}vw - 50%), calc(${y}vh - 50% + ${bob}px), 0) scaleX(${scaleX}) scale(${current.s * scaleMultiplier}) rotate(${current.r}deg)`;
   }
 
   function updateScrollAnimations() {
     const scrollY = window.scrollY || window.pageYOffset;
+    const mobile = isMobile();
+
+    if (reducedMotion.matches) {
+      ticking = false;
+      return;
+    }
 
     if (page === 'home' && intro && introLogo) {
-      const introScrollDistance = Math.max(intro.offsetHeight - window.innerHeight, 1);
-      const introProgress = clamp(scrollY / introScrollDistance, 0, 1);
-      const scale = lerp(1.08, 0.26, introProgress);
-      const y = lerp(0, -265, introProgress);
+      const introProgress = clamp(scrollY / metrics.introDistance, 0, 1);
+      const scale = mobile ? lerp(1.02, 0.32, introProgress) : lerp(1.08, 0.26, introProgress);
+      const y = mobile ? lerp(0, -185, introProgress) : lerp(0, -265, introProgress);
       const opacity = lerp(1, 0, clamp((introProgress - 0.78) / 0.22, 0, 1));
       introLogo.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
       introLogo.style.opacity = opacity.toFixed(3);
 
       if (header) {
         const headerProgress = clamp((introProgress - 0.70) / 0.30, 0, 1);
-        header.classList.toggle('is-visible', headerProgress > 0.02 || scrollY > introScrollDistance);
+        header.classList.toggle('is-visible', headerProgress > 0.02 || scrollY > metrics.introDistance);
         header.style.opacity = headerProgress.toFixed(3);
-        header.style.transform = `translateY(${lerp(-14, 0, headerProgress)}px)`;
-        header.style.pointerEvents = headerProgress > 0.85 ? 'none' : 'none';
+        header.style.transform = `translate3d(0, ${lerp(-14, 0, headerProgress)}px, 0)`;
+        header.style.pointerEvents = headerProgress > 0.86 ? 'auto' : 'none';
       }
 
       if (balloon) {
-        const start = introScrollDistance + 30;
+        const start = metrics.introDistance + 30;
         const progress = pageProgress(start);
         const current = interpolatePath(pathHome, progress);
         const reveal = clamp((scrollY - start) / 220, 0, 1);
         const bob = Math.sin(scrollY * 0.008) * 8;
-        balloon.style.left = `${current.x}vw`;
-        balloon.style.top = `${current.y}vh`;
-        balloon.style.opacity = (current.o * reveal).toFixed(2);
-        const mobileScale = window.innerWidth <= 720 ? 0.62 : 1;
-        balloon.style.transform = `translate3d(-50%, calc(-50% + ${bob}px), 0) scale(${current.s * mobileScale}) rotate(${current.r}deg)`;
+        renderMotion(balloon, current, {
+          bob,
+          mobileScale: 0.56,
+          opacity: current.o * reveal
+        });
       }
     }
 
     if (page === 'about' && aboutStar) {
-      applyMotion(aboutStar, pathAbout, pageProgress(0), Math.sin(scrollY * 0.01) * 7);
+      const current = interpolatePath(pathAbout, pageProgress(0));
+      renderMotion(aboutStar, current, {
+        bob: Math.sin(scrollY * 0.01) * 7,
+        mobileScale: 0.62
+      });
     }
 
     if (page === 'gallery' && galleryPlane) {
-      applyMotion(galleryPlane, pathGallery, pageProgress(0), Math.sin(scrollY * 0.008) * 10);
+      const current = interpolatePath(pathGallery, pageProgress(0));
+      renderMotion(galleryPlane, current, {
+        bob: Math.sin(scrollY * 0.008) * 10,
+        mobileScale: 0.58
+      });
     }
 
     ticking = false;
@@ -168,9 +197,18 @@
       ticking = true;
     }
   }
+
+  updateMetrics();
   updateScrollAnimations();
   window.addEventListener('scroll', requestUpdate, { passive: true });
-  window.addEventListener('resize', requestUpdate);
+  window.addEventListener('resize', () => {
+    updateMetrics();
+    requestUpdate();
+  }, { passive: true });
+  window.addEventListener('load', () => {
+    updateMetrics();
+    requestUpdate();
+  });
 
   const lightbox = document.querySelector('.lightbox');
   if (lightbox) {
