@@ -124,18 +124,25 @@
   }
 
 
-  const dateInput = document.querySelector('.date-input-fixed');
-  if (dateInput) {
-    dateInput.addEventListener('input', () => {
-      const digits = dateInput.value.replace(/\D/g, '').slice(0, 8);
-      const day = digits.slice(0, 2);
-      const month = digits.slice(2, 4);
-      const year = digits.slice(4, 8);
-      let formatted = day;
-      if (month) formatted += `.${month}`;
-      if (year) formatted += `.${year}`;
-      dateInput.value = formatted;
-    });
+  const nativeDateInput = document.querySelector('.native-date-input');
+  const dateDisplay = document.querySelector('.date-display');
+  const formattedDateInput = document.querySelector('#datum-formatirano');
+  if (nativeDateInput && dateDisplay && formattedDateInput) {
+    const formatDate = (value) => {
+      if (!value) return '';
+      const [year, month, day] = value.split('-');
+      if (!year || !month || !day) return '';
+      return `${day}.${month}.${year}.`;
+    };
+    const syncDateDisplay = () => {
+      const formatted = formatDate(nativeDateInput.value);
+      const placeholder = dateDisplay.dataset.placeholder || 'Odaberite datum';
+      dateDisplay.textContent = formatted || placeholder;
+      dateDisplay.classList.toggle('is-placeholder', !formatted);
+      formattedDateInput.value = formatted;
+    };
+    syncDateDisplay();
+    nativeDateInput.addEventListener('change', syncDateDisplay);
   }
 
   const form = document.querySelector('.reservation-form');
