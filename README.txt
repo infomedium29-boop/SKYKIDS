@@ -23,3 +23,7 @@ SKYKIDS WEB STRANICA - NAPOMENE ZA POSTAVLJANJE
 
 5) Glavna scroll animacija balona je u assets/js/main.js.
    Na mobile verziji je namjerno pojednostavljena/isključena zbog brzine i responzivnosti.
+
+
+FAVICON:
+Favicon je postavljen iz loga balona i zvjezdice u assets/img/favicon.ico i PNG veličinama.
