@@ -20,7 +20,7 @@ SKYKIDS WEB STRANICA - NAPOMENE ZA POSTAVLJANJE
 4) Kontakt forma je pripremljena za Web3Forms:
    u kontakt.html pronaći YOUR_WEB3FORMS_ACCESS_KEY i zamijeniti stvarnim access key-em.
 
-5) Glavna scroll animacija balona je u assets/js/main.js.
+5) Pokretni scroll elementi (balon, zvijezda i avion) su uklonjeni radi glađeg rada na mobitelu. Intro animacija loga ostaje u assets/js/main.js.
    Na mobile verziji je namjerno pojednostavljena/isključena zbog brzine i responzivnosti.
 
 
