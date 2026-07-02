@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kontakt i rezervacija termina | SkyKids igraonica</title>
+  <meta name="description" content="Kontaktirajte SkyKids igraonicu i pošaljite upit za rezervaciju termina za dječji rođendan. Odaberite Basic ili Tematski paket.">
+  <link rel="canonical" href="https://skykids.hr/kontakt.html">
+  <meta property="og:title" content="Kontakt i rezervacija | SkyKids">
+  <meta property="og:description" content="Pošaljite upit za rezervaciju termina u SkyKids igraonici.">
+  <meta property="og:type" content="website"><meta property="og:image" content="https://skykids.hr/assets/img/fotografije/igraonica-23.avif"><meta name="theme-color" content="#BFEEDC">
+  <link rel="icon" href="assets/img/balon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800;900;1000&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="contact">
+  <a class="skip-link" href="#main">Preskoči na sadržaj</a>
+  <header class="site-header" aria-label="Glavna navigacija"><div class="header-inner"><a class="brand" href="index.html" aria-label="SkyKids naslovna"><img class="brand-logo" src="assets/img/logo.svg" alt="SkyKids logo"></a><nav class="nav" aria-label="Navigacija"><a href="index.html">Naslovna</a><a href="o-nama.html">O nama</a><a href="paketi.html">Paketi</a><a href="galerija.html">Galerija</a><a class="active" href="kontakt.html">Kontakt</a></nav><div class="header-actions"><a class="btn" href="#rezervacija">Rezerviraj termin</a><button class="menu-toggle" type="button" aria-label="Otvori izbornik" aria-expanded="false"><span></span><span></span><span></span></button></div></div></header>
+  <main id="main">
+    <section class="page-hero"><span class="shape mint"></span><span class="shape cream"></span><div class="container page-hero-grid"><div class="reveal"><span class="eyebrow">Kontakt i rezervacija</span><h1>Pošaljite upit za slobodan termin.</h1><p class="lead">Ispunite obrazac s osnovnim podacima o proslavi. Nakon toga se termin i detalji mogu potvrditi direktno s igraonicom.</p><div class="breadcrumb"><a href="index.html">Naslovna</a> / Kontakt</div></div><div class="page-hero-photo reveal"><img src="assets/img/fotografije/igraonica-23.avif" alt="SkyKids rođendanski prostor i pozornica"></div></div></section>
+
+    <section class="section compact" id="rezervacija">
+      <div class="container contact-layout">
+        <aside class="contact-card reveal">
+          <span class="eyebrow">Podaci</span>
+          <h2 style="font-size:clamp(2.2rem,4vw,3.8rem);margin-top:18px">Kontakt</h2>
+          <p>Javite nam željeni datum proslave, broj djece i paket koji vas zanima. Odgovorit ćemo s dostupnim terminima i svim detaljima organizacije.</p>
+          <div class="contact-list">
+            <div class="contact-row"><span>📞</span><div><strong>Telefon</strong><small>+385 XX XXX XXXX</small></div></div>
+            <div class="contact-row"><span>✉️</span><div><strong>E-mail</strong><small>info@skykids.hr</small></div></div>
+            <div class="contact-row"><span>📍</span><div><strong>Lokacija</strong><small>Upisati adresu igraonice</small></div></div>
+            <div class="contact-row"><span>📱</span><div><strong>Društvene mreže</strong><small>Instagram i Facebook linkovi</small></div></div>
+          </div>
+          <div class="socials"><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="Facebook">FB</a></div>
+          <div class="map-placeholder"><div><strong>SkyKids lokacija</strong><p>Interaktivna karta s točnom lokacijom igraonice bit će prikazana ovdje.</p></div></div>
+        </aside>
+
+        <div class="contact-card reveal">
+          <span class="eyebrow">Rezervacija termina</span>
+          <h2 style="font-size:clamp(2.2rem,4vw,3.8rem);margin-top:18px">Upit za proslavu</h2>
+          <p class="lead">Pošaljite željeni datum, broj djece i paket koji vas zanima.</p>
+          <form class="reservation-form" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+            <input type="hidden" name="subject" value="Novi upit za SkyKids rođendan">
+            <input type="hidden" name="from_name" value="SkyKids web stranica">
+            <div class="form-grid">
+              <div class="field"><label for="ime">Ime i prezime roditelja</label><input id="ime" name="Ime i prezime" type="text" required autocomplete="name" placeholder="Vaše ime i prezime"></div>
+              <div class="field"><label for="telefon">Broj telefona</label><input id="telefon" name="Telefon" type="tel" required autocomplete="tel" placeholder="+385..."></div>
+              <div class="field"><label for="email">E-mail</label><input id="email" name="E-mail" type="email" required autocomplete="email" placeholder="ime@email.com"></div>
+              <div class="field"><label for="datum">Željeni datum proslave</label><input id="datum" name="Željeni datum" type="date"></div>
+              <div class="field"><label for="djeca">Broj djece</label><input id="djeca" name="Broj djece" type="number" min="1" placeholder="npr. 15"></div>
+              <div class="field"><label for="paket">Odabir paketa</label><select id="paket" name="Paket"><option value="Basic paket">Basic paket – 320 €</option><option value="Tematski paket">Tematski paket – 380 €</option><option value="Nisam siguran/sigurna">Nisam siguran/sigurna</option></select></div>
+              <div class="field full"><label for="poruka">Poruka</label><textarea id="poruka" name="Poruka" placeholder="Napišite dodatne želje, temu rođendana ili pitanja..."></textarea></div>
+              <div class="field full checkbox-field"><label><input type="checkbox" name="Privola" required> Pristajem da me SkyKids kontaktira vezano uz poslani upit i prihvaćam <a href="politika-privatnosti.html">politiku privatnosti</a>.</label></div><div class="field full"><button class="btn full" type="submit">Pošalji upit za rezervaciju</button><p class="form-note">Nakon slanja upita, javit ćemo vam se s potvrdom dostupnosti termina.</p></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container"><div class="footer-grid"><div><img class="footer-logo" src="assets/img/logo.svg" alt="SkyKids logo"><p>Moderna igraonica i rođendaonica za dječju igru, smijeh i nezaboravne proslave.</p><div class="socials"><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="Facebook">FB</a></div></div><div><div class="footer-title">Navigacija</div><div class="footer-links"><a href="index.html">Naslovna</a><a href="o-nama.html">O nama</a><a href="paketi.html">Paketi</a><a href="galerija.html">Galerija</a><a href="kontakt.html">Kontakt</a></div></div><div><div class="footer-title">Paketi</div><div class="footer-links"><a href="paketi.html#basic">Basic paket</a><a href="paketi.html#tematski">Tematski paket</a><a href="#rezervacija">Rezervacija</a></div></div><div><div class="footer-title">Kontakt</div><p>Telefon: +385 XX XXX XXXX<br>E-mail: info@skykids.hr<br>Adresa: upisati adresu</p></div></div><div class="copyright"><span>© 2026 SkyKids. Sva prava pridržana.</span><span><a href="politika-privatnosti.html">Privatnost</a> · <a href="kolacici.html">Kolačići</a> · Izrada: <a href="https://medium29.com/" target="_blank" rel="noopener">Medium29</a></span></div></div></footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
