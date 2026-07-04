@@ -28,3 +28,9 @@ FAVICON:
 Favicon je postavljen iz loga balona i zvjezdice u assets/img/favicon.ico i PNG veličinama.
 
 NAPOMENA: Page-transition animacije za O nama, Pakete i Galeriju su uklonjene radi maksimalne brzine i glatkog skrolanja.
+SEO POPRAVAK:
+- Canonical URL-ovi postavljeni su na clean verzije bez .html nastavaka.
+- sitemap.xml sadrži samo glavne indexable stranice.
+- robots.txt dopušta indeksiranje i pokazuje na sitemap.xml.
+- _redirects preusmjerava stare .html URL-ove na clean URL-ove i servira clean URL-ove na Cloudflare Pages.
+- WordPress stare URL-ove iz Search Consolea (/wp-admin, /wp-content, /feed itd.) ne treba ručno popravljati; to su ostaci starog sajta i Google će ih vremenom očistiti.

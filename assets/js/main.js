@@ -194,7 +194,7 @@
         <p>Ova stranica koristi kolačiće za bolje korisničko iskustvo i osnovnu funkcionalnost stranice.</p>
       </div>
       <div class="cookie-banner__actions">
-        <a href="kolacici.html">Saznaj više</a>
+        <a href="/kolacici">Saznaj više</a>
         <button type="button" class="cookie-accept">Prihvaćam</button>
       </div>
     `;

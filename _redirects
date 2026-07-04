@@ -1,0 +1,16 @@
+# Clean URL redirects for Cloudflare Pages
+/index.html / 301
+/o-nama.html /o-nama 301
+/paketi.html /paketi 301
+/galerija.html /galerija 301
+/kontakt.html /kontakt 301
+/politika-privatnosti.html /politika-privatnosti 301
+/kolacici.html /kolacici 301
+
+# Clean URL rewrites
+/o-nama /o-nama.html 200
+/paketi /paketi.html 200
+/galerija /galerija.html 200
+/kontakt /kontakt.html 200
+/politika-privatnosti /politika-privatnosti.html 200
+/kolacici /kolacici.html 200

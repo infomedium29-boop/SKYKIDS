@@ -2,4 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://skykids.hr/sitemap.xml
-Sitemap: https://skykids.hr/sitemap_index.xml
