@@ -7,10 +7,8 @@
 /politika-privatnosti.html /politika-privatnosti 301
 /kolacici.html /kolacici 301
 
-# Clean URL rewrites
-/o-nama /o-nama.html 200
-/paketi /paketi.html 200
-/galerija /galerija.html 200
-/kontakt /kontakt.html 200
-/politika-privatnosti /politika-privatnosti.html 200
-/kolacici /kolacici.html 200
+# WordPress remnants from old site - do not index these technical URLs
+/feed/ / 301
+/comments/feed/ / 301
+/sample-page/feed/ / 301
+/polica-privatnosti /politika-privatnosti 301
