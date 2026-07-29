@@ -1,0 +1,37 @@
+SKYKIDS – POVEZIVANJE KONTAKT FORME
+=====================================
+
+Kontakt forma više ne koristi Web3Forms. Upit se šalje kroz Cloudflare Pages Function
+na /api/contact, a e-mail primatelja i API ključ nisu spremljeni u HTML-u, JavaScriptu
+ni u GitHub repozitoriju.
+
+POTREBNE CLOUDFLARE VARIJABLE
+-----------------------------
+U Cloudflare Pages projektu otvorite:
+Settings > Variables and Secrets > Add
+
+Dodajte kao šifrirane varijable (Secrets):
+
+1. RESEND_API_KEY
+   API ključ iz Resend računa.
+
+2. CONTACT_RECIPIENT
+   Gmail adresa na koju trebaju stizati upiti.
+
+3. CONTACT_FROM_EMAIL
+   Potvrđena adresa pošiljatelja u Resendu, primjer:
+   SkyKids <rezervacije@vasa-domena.hr>
+
+Važno: Gmail adresa primatelja ne upisuje se u datoteke projekta, nego samo u
+CONTACT_RECIPIENT unutar Cloudflarea. Zbog toga nije javno vidljiva na sajtu niti u kodu.
+
+RESEND
+------
+1. Otvorite Resend račun.
+2. Dodajte i potvrdite domenu s koje želite slati poruke.
+3. DNS zapise koje Resend prikaže dodajte u Cloudflare DNS.
+4. Kreirajte API ključ i unesite ga u RESEND_API_KEY.
+5. CONTACT_FROM_EMAIL mora koristiti potvrđenu domenu.
+
+Nakon dodavanja varijabli napravite novi Cloudflare Pages deployment.
+Zatim pošaljite probni upit kroz kontakt formu i provjerite Inbox i Spam.

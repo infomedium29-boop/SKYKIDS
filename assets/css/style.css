@@ -527,3 +527,42 @@ ul.clean{padding:0;margin:0;list-style:none}
     padding:0 16px;
   }
 }
+
+
+/* Secure reservation form feedback */
+.form-honeypot {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.reservation-form button[disabled] {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.form-status {
+  margin: 14px 0 0;
+  padding: 13px 15px;
+  border-radius: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.form-status.is-success {
+  background: rgba(33, 150, 83, 0.12);
+  border: 1px solid rgba(33, 150, 83, 0.28);
+  color: #176b3a;
+}
+
+.form-status.is-error {
+  background: rgba(211, 47, 47, 0.10);
+  border: 1px solid rgba(211, 47, 47, 0.26);
+  color: #9f2020;
+}

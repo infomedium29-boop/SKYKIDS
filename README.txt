@@ -8,7 +8,7 @@ SKYKIDS WEB STRANICA - NAPOMENE ZA POSTAVLJANJE
    - Teslićka ul. 25, 10000 Zagreb
    - Instagram je unesen: https://www.instagram.com/igraonica.skykids/
    - Google Maps embed na kontakt stranici
-   - Web3Forms access key u kontakt.html
+   - Cloudflare/Resend varijable prema SETUP_CONTACT_FORM.txt
 
 3) Ako domena nije skykids.hr, zamijeniti domenu u:
    - sitemap.xml
@@ -17,8 +17,9 @@ SKYKIDS WEB STRANICA - NAPOMENE ZA POSTAVLJANJE
    - Open Graph URL/image tagovima
    - schema markupu u index.html
 
-4) Kontakt forma je pripremljena za Web3Forms:
-   u kontakt.html pronaći YOUR_WEB3FORMS_ACCESS_KEY i zamijeniti stvarnim access key-em.
+4) Kontakt forma koristi Cloudflare Pages Function i Resend.
+   Upute za povezivanje nalaze se u SETUP_CONTACT_FORM.txt.
+   Adresa primatelja i API ključ ne spremaju se u javne datoteke projekta.
 
 5) Pokretni scroll elementi (balon, zvijezda i avion) su uklonjeni radi glađeg rada na mobitelu. Intro animacija loga ostaje u assets/js/main.js.
    Na mobile verziji je namjerno pojednostavljena/isključena zbog brzine i responzivnosti.

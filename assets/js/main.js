@@ -128,20 +128,22 @@
   const dateDisplay = document.querySelector('.date-display');
   const formattedDateInput = document.querySelector('#datum-formatirano');
   const datePickerTrigger = document.querySelector('.date-picker-wrap');
+  const formatDate = (value) => {
+    if (!value) return '';
+    const [year, month, day] = value.split('-');
+    if (!year || !month || !day) return '';
+    return `${day}.${month}.${year}.`;
+  };
+  const syncDateDisplay = () => {
+    if (!nativeDateInput || !dateDisplay || !formattedDateInput) return;
+    const formatted = formatDate(nativeDateInput.value);
+    const placeholder = dateDisplay.dataset.placeholder || 'Odaberite datum';
+    dateDisplay.textContent = formatted || placeholder;
+    dateDisplay.classList.toggle('is-placeholder', !formatted);
+    formattedDateInput.value = formatted;
+  };
+
   if (nativeDateInput && dateDisplay && formattedDateInput) {
-    const formatDate = (value) => {
-      if (!value) return '';
-      const [year, month, day] = value.split('-');
-      if (!year || !month || !day) return '';
-      return `${day}.${month}.${year}.`;
-    };
-    const syncDateDisplay = () => {
-      const formatted = formatDate(nativeDateInput.value);
-      const placeholder = dateDisplay.dataset.placeholder || 'Odaberite datum';
-      dateDisplay.textContent = formatted || placeholder;
-      dateDisplay.classList.toggle('is-placeholder', !formatted);
-      formattedDateInput.value = formatted;
-    };
     syncDateDisplay();
     nativeDateInput.addEventListener('change', syncDateDisplay);
 
@@ -155,11 +157,60 @@
 
   const form = document.querySelector('.reservation-form');
   if (form) {
-    form.addEventListener('submit', (event) => {
-      const key = form.querySelector('input[name="access_key"]')?.value || '';
-      if (key.includes('YOUR_WEB3FORMS_ACCESS_KEY')) {
-        event.preventDefault();
-        alert('Forma je spremna, ali prije slanja treba upisati stvarni Web3Forms access key.');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const formStatus = form.querySelector('.form-status');
+    const defaultButtonText = submitButton?.textContent || 'Pošalji upit za rezervaciju';
+
+    const showFormStatus = (message, type) => {
+      if (!formStatus) return;
+      formStatus.textContent = message;
+      formStatus.hidden = false;
+      formStatus.classList.remove('is-success', 'is-error');
+      formStatus.classList.add(type === 'success' ? 'is-success' : 'is-error');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      if (formattedDateInput && nativeDateInput?.value) {
+        formattedDateInput.value = formatDate(nativeDateInput.value);
+      }
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      submitButton?.setAttribute('disabled', 'disabled');
+      if (submitButton) submitButton.textContent = 'Slanje...';
+      if (formStatus) formStatus.hidden = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(result.message || 'Upit trenutno nije moguće poslati.');
+        }
+
+        showFormStatus('Hvala! Vaš upit je uspješno poslan. SkyKids će vam se javiti u najkraćem mogućem roku.', 'success');
+        form.reset();
+        syncDateDisplay();
+      } catch (error) {
+        showFormStatus(error.message || 'Došlo je do greške. Pokušajte ponovno ili nas kontaktirajte telefonom.', 'error');
+      } finally {
+        submitButton?.removeAttribute('disabled');
+        if (submitButton) submitButton.textContent = defaultButtonText;
       }
     });
   }
